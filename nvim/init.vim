@@ -7,6 +7,24 @@
 " by Stephan Raabe (2023)
 " -----------------------------------------------------
 
+call plug#begin()
+Plug 'vim-syntastic/syntastic'
+Plug 'tpope/vim-sensible'
+Plug 'flazz/vim-colorschemes'
+Plug 'scrooloose/nerdtree'
+Plug 'vim-airline/vim-airline'
+Plug 'vim-airline/vim-airline-themes'
+Plug 'sheerun/vim-polyglot'
+Plug 'ap/vim-css-color'
+Plug 'wagnerf42/vim-clippy'
+Plug 'ycm-core/YouCompleteMe'
+Plug 'github/copilot.vim'
+call plug#end()
+
+set path+=**
+
+filetype detect
+
 set nocompatible            " disable compatibility to old-time vi
 set showmatch               " show matching
 set ignorecase              " case insensitive
@@ -19,18 +37,26 @@ set expandtab               " converts tabs to white space
 set shiftwidth=4            " width for autoindents
 set autoindent              " indent a new line the same amount as the line just typed
 set number                  " add line numbers
-set wildmode=longest,list   " get bash-like tab completions
+set relativenumber
+set wildmenu
+" set wildmode=longest,list   " get bash-like tab completions
 " set cc=80                   " set an 80 column border for good coding style
 filetype plugin indent on   "allow auto-indenting depending on file type
 syntax on                   " syntax highlighting
 set mouse=a                 " enable mouse click
 set clipboard=unnamedplus   " using system clipboard
 filetype plugin on
-" set cursorline              " highlight current cursorline
+set cursorline              " highlight current cursorline
+set cursorcolumn
 set ttyfast                 " Speed up scrolling in Vim
 " set spell                 " enable spell check (may need to download language package)
 " set noswapfile            " disable creating swap file
 " set backupdir=~/.cache/vim " Directory to store backup files.
+
+autocmd InsertEnter *   :set norelativenumber
+autocmd InsertLeave *   :set relativenumber
+
+colorscheme badwolf
 
 hi NonText ctermbg=none guibg=NONE
 hi Normal guibg=NONE ctermbg=NONE
@@ -41,3 +67,21 @@ hi Pmenu ctermbg=NONE ctermfg=NONE guibg=NONE
 hi FloatBorder ctermbg=NONE ctermfg=NONE guibg=NONE
 hi NormalFloat ctermbg=NONE ctermfg=NONE guibg=NONE
 hi TabLine ctermbg=None ctermfg=None guibg=None
+
+noremap <Home>              ^
+vnoremap <Tab>              >
+vnoremap <S-Tab>            <
+nnoremap <Esc>^[            <Esc>^[
+noremap <C-]>               :YcmCompleter GoTo<CR>
+
+" NERDTree
+function! NerdTreeToggleFind()
+    if exists("g:NERDTree") && g:NERDTree.IsOpen()
+        NERDTreeClose
+    elseif filereadable(expand('%'))
+        NERDTreeFind
+    else
+        NERDTree
+    endif
+endfunction
+nnoremap <C-g> :call NerdTreeToggleFind()<CR>
