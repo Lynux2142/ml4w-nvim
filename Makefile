@@ -5,7 +5,7 @@ CONFIG_DIR = $(HOME)/.config/nvim
 
 install:
 	@echo "Installing vim plug..."
-	sh -c 'curl -fLo "${XDG_DATA_HOME:-$HOME/.local/share}"/nvim/site/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
+	curl -fLo "$${XDG_DATA_HOME:-$(HOME)/.local/share}"/nvim/site/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
 
 	@echo "Installing ML4W nvim configuration..."
 	mkdir -p $(CONFIG_DIR)
@@ -14,11 +14,10 @@ install:
 	install -m 777 nvim/* $(CONFIG_DIR)/
 
 	@echo "Installing vim plugins..."
-	nvim --headless +PlugInstall +qall
+	nvim --headless +PlugInstall +qall 2>/dev/null
 
 	@echo "Installing YouCompleteMe plugin..."
 	cd $(HOME)/.local/share/nvim/plugged/YouCompleteMe && python3 install.py --all
-	1
 
 	@echo "Done!"
 
