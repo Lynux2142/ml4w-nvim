@@ -73,6 +73,7 @@ vnoremap <Tab>              >
 vnoremap <S-Tab>            <
 nnoremap <Esc>^[            <Esc>^[
 noremap <C-]>               :YcmCompleter GoTo<CR>
+nnoremap <C-A>              ggVG
 
 " NERDTree
 function! NerdTreeToggleFind()
